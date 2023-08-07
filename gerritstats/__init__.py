@@ -1,2 +1,4 @@
-from .base import GerritStats
+__version__ = "0.0.1"
+
+from gerritstats.src import GerritStats
 
