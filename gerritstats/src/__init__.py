@@ -1,9 +1,4 @@
 from gerrit import GerritClient
-import json
-from collections import Counter
-import requests
-from requests.auth import HTTPBasicAuth
-from datetime import datetime
 from gerritstats.src.project import GerritProject
 
 
@@ -42,12 +37,43 @@ class GerritStats:
         return self.projects
 
 
-    def get_project_stats(self, project_id):
-        project = GerritProject(proj_id=project_id)
-        ###mi, ma, av = project.get_statistics
+    def get_project_stats(self, project_id, begin, end, status, branch='master'):
+        project = GerritProject(proj_id=project_id, url=self.url, username=self.uname,
+                                password=self.pw)
+        
+        min_rate, max_rate, avg_rate = project.get_statistics(begin=begin,
+                                                              end=end,
+                                                              status=status,
+                                                              branch=branch)
+        return min_rate, max_rate, avg_rate
 
 
-    
+    def get_project_changes(self, project_id, begin, end, status, branch='master'):
+        project = GerritProject(proj_id=project_id, url=self.url, username=self.uname,
+                                password=self.pw)
+         
+        changes = project.get_changes(begin=begin, end=end, status=status, branch=branch)
+
+        return changes
+
+
+    def get_change(self, project_id, change_id):
+        project = GerritProject(proj_id=project_id, url=self.url, username=self.uname,
+                                password=self.pw)
+        change_details = project.get_change_details(change_id=change_id)
+
+        return change_details
+
+
+"""
+    def get_plus_twos(self, project_id, change_details):
+        project = GerritProject(proj_id=project_id, url=self.url, username=self.uname, password=self.pw)
+        plus_twos = project.count_plus_twos(change_details=change_details)
+
+        return plus_twos
+
+"""
+    #def to_be_testes():
        # These methods are not yet tested
        # def get_log(client, project, branch='master'):
        #        """Get git reflog of the given project
@@ -93,4 +119,3 @@ class GerritStats:
        #        avg_freq = sum(freq)/len(freq)
 
        #        return min_freq, max_freq, avg_freq    
-
