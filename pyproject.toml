@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=40.8.0", "wheel"]
+build-backend = "setuptools.build_meta:__legacy__"
+
+[project]
+name = "gerritstats"
+version = "1.0.0"
+description = "Extract statistics of Gerrit projects using the Gerrit REST API"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+  {email = "soheil.soltani@volvocars.com"},
+  {name = "Soheil Soltani"}
+]
