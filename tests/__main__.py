@@ -1,6 +1,16 @@
+"""Command line script
+Usage:
+    __main__.py --username=<username>  --password=<password>
+
+Options:
+    --username=<username>   Your Gerrit username (required)
+    --password=<password>   Your Gerrit password (required)
+"""
+
 import json
 from gerritstats import GerritStats
 from datetime import date, timedelta
+from docopt import docopt
 
 def get_cumulative(begin, end, projects, status):
     delta = timedelta(days=1)  # checking daily gate job activation
@@ -38,9 +48,11 @@ def get_cumulative(begin, end, projects, status):
     return cumulative
 
 if __name__=="__main__":
-    gerrit = GerritStats(username='ssoltan3',
-                         password='FH6I0MLxalupInnX6aX+2GwKI2cWVqxL5tH5jg8L4A',
-                         url="https://ad-adas-gerrit.volvocars.biz/")
+    arguments = docopt(__doc__)
+    uname = arguments['--username']
+    passw = arguments['--password']
+#'FH6I0MLxalupInnX6aX+2GwKI2cWVqxL5tH5jg8L4A'
+    gerrit = GerritStats(username=uname, password=passw, url="https://ad-adas-gerrit.volvocars.biz/")
 
     gerrit.set_projects(include=['adas/'], exclude=['interface'])
     projects = gerrit.get_projects()
